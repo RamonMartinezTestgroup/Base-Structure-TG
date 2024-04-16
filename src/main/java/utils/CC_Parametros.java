@@ -10,6 +10,6 @@ public interface CC_Parametros {
     
     //Archivo CSV con los datos de entrada
     int gloColumnas = 5;
-    String gloNombreCSV = "CSVParametersCarritoCompras.csv";
+    String gloNombreCSV = "CSVParametersCarritoCompras.csv"; 
     //Fin
 }
