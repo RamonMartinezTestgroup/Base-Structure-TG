@@ -67,7 +67,7 @@ public class CC_PasosFuncionales extends CC_Test {
 					"No se ha ingresado correctamente a la pagina: ", currentEvent);
 
 		} catch (Exception e) {
-			GG_Utils.eventFailed(currentEvent, e.getMessage());
+			GG_Utils.eventFailed(currentEvent, e.getMessage(), null );
 		}
 	}
 
@@ -121,7 +121,7 @@ public class CC_PasosFuncionales extends CC_Test {
 			Thread.sleep(2000);
 
 		} catch (Exception e) {
-			GG_Utils.eventFailed(currentEvent, "('" + producto + "' / '" + producto2 + "') " + e.getMessage());
+			GG_Utils.eventFailed(currentEvent, "('" + producto + "' / '" + producto2 + "') " + e.getMessage(), null);
 		}
 	}
 }

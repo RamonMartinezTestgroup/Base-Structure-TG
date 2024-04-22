@@ -27,11 +27,11 @@ public class GG_Eventos {
 			} else {
 				// String nameInput = GG_Utils.inputName(element);
 				GG_Utils.eventFailed(currentEvent,
-						"[?] El campo '" + nameInput + "' no se encuentra habilitado o desplegado");
+						"[?] El campo '" + nameInput + "' no se encuentra habilitado o desplegado", null);
 			}
 		} catch (NoSuchElementException e) {
 			String nameInput = GG_Utils.inputName(element);
-			GG_Utils.eventFailed(currentEvent, "[?] El elemento '" + nameInput + "' no existe");
+			GG_Utils.eventFailed(currentEvent, "[?] El elemento '" + nameInput + "' no existe", null);
 		}
 	}
 
@@ -44,7 +44,7 @@ public class GG_Eventos {
 			GG_Utils.outputInfo(" [evento] Se ha hecho clic en el boton: " + name);
 		} else {
 			String name = element.getAttribute("text");
-			GG_Utils.eventFailed(currentEvent, "[?] El boton '" + name + "' no esta desplegado o habilitado");
+			GG_Utils.eventFailed(currentEvent, "[?] El boton '" + name + "' no esta desplegado o habilitado", null);
 		}
 	}
 
@@ -61,7 +61,7 @@ public class GG_Eventos {
 					" [evento] Se ha seleccionado la opcion '" + selectedOption + "' en la lista desplegable " + name);
 			return selectedOption;
 		} else {
-			GG_Utils.eventFailed(currentEvent, "[?] La opcion requerida no pudo ser seleccionada");
+			GG_Utils.eventFailed(currentEvent, "[?] La opcion requerida no pudo ser seleccionada", null);
 			return null;
 		}
 	}

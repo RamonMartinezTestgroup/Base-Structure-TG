@@ -7,7 +7,7 @@ public class GG_Validations {
 			GG_Utils.outputInfo("[OK] " + successMessage);
 		}
 		else {
-			GG_Utils.eventFailed(currentEvent, errorMessage + ": " + condition);
+			GG_Utils.eventFailed(currentEvent, errorMessage + ": " + condition, null);
 		}
 	}
 }

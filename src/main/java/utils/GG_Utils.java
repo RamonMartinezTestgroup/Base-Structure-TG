@@ -10,6 +10,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.ITestResult;
 
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
@@ -30,14 +31,16 @@ public class GG_Utils {
 		GG_BaseTest.logger.log(Status.INFO, m);
 	}
 
-	public static void eventFailed(String currentEvent, String errorMessage) {
+	public static void eventFailed(String currentEvent, String errorMessage, ITestResult result) {
 		GG_BaseTest.logger.warning("[ERROR] en " + currentEvent + ", No se pudo terminar a causa de: " + errorMessage);
 		System.out.println("[ERROR] en " + currentEvent + ", No se pudo terminar a causa de: " + errorMessage);
 
 		String logText = "FAILED: " + currentEvent;
 		Markup m = MarkupHelper.createLabel(logText, ExtentColor.RED);
 		GG_BaseTest.logger.log(Status.FAIL, m);
-		String path = takeScreenshot(currentEvent);
+				
+		result.setStatus(ITestResult.FAILURE);
+		String path = takeScreenshot(currentEvent, result);
 		try {
 			GG_BaseTest.logger.addScreenCaptureFromPath(path, currentEvent);
 		} catch (IOException e) {
@@ -46,8 +49,8 @@ public class GG_Utils {
 		Assert.fail();
 	}
 
-	public static String takeScreenshot(String nameMethod) {
-		// Obtener Fecha y Hora para la Evidencia del Pas� Fallido.
+	public static String takeScreenshot(String nameMethod, ITestResult result) {
+		// Obtener Fecha y Hora para la Evidencia del Paso.
 		LocalTime hhora = LocalTime.now();
 		DateTimeFormatter f_t = DateTimeFormatter.ofPattern("HHmmss");
 
@@ -58,21 +61,24 @@ public class GG_Utils {
 		String xFecha = ffecha.format(f_d).toString();
 
 		String xSufijo = xFecha + "_" + xHora;
-		// Fin
+		String status = "";
 
-		String fileName = CC_Parametros.gloDir + File.separator + "screenshots" + File.separator + "failed"
+		if (result.getStatus() == ITestResult.SUCCESS) {
+			status = "passed";
+		} else if (result.getStatus() == ITestResult.FAILURE) {
+			status = "failed";
+		}
+
+		String filepath = CC_Parametros.gloDir + File.separator + "screenshots" + File.separator + status
 				+ File.separator + nameMethod + "_" + xSufijo;
 		File f = ((TakesScreenshot) GG_BaseTest.driver).getScreenshotAs(OutputType.FILE);
 
 		try {
-			File newFile = new File(fileName + ".png");
+			File newFile = new File(filepath + ".png");
 			Files.copy(f, newFile);
-
 			return newFile.getAbsolutePath();
-
 		} catch (IOException e) {
 			e.printStackTrace();
-
 			return "";
 		}
 	}
@@ -86,11 +92,12 @@ public class GG_Utils {
 		outputInfo("PASSED: " + currentTestCase + "\n" + message + "\n");
 	}
 
-	public static void testCaseFailed(String currentTestCase, String caseTestDesc, Exception e) {
+	public static void testCaseFailed(String currentTestCase, String caseTestDesc, ITestResult result, Exception e) {
 		outputInfo("No se ha terminado el caso de prueba '" + currentTestCase + "' por la siguiente excepcion: " + "\n"
 				+ e.getMessage());
 		outputInfo("FAILED: " + currentTestCase + " - " + caseTestDesc + "\n");
-		takeScreenshot(currentTestCase);
+		result.setStatus(ITestResult.FAILURE);
+		takeScreenshot(currentTestCase, result);
 		Assert.fail();
 	}
 

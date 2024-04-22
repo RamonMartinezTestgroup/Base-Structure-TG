@@ -34,6 +34,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import main.java.utils.CC_Parametros;
+import main.java.utils.GG_Utils;
 import test.java.carritocompras.CC_Test;
 
 public class GG_BaseTest {
@@ -88,39 +89,30 @@ public class GG_BaseTest {
 	@AfterMethod
 	public void afterMethodMethod(ITestResult result) throws IOException {
 		// Etapas de los resultados.
+		String methodName = result.getMethod().getMethodName();
+		String screnshotPath = GG_Utils.takeScreenshot(methodName, result);
+
 		if (result.getStatus() == ITestResult.SUCCESS) {
 			logger.assignAuthor(CC_Parametros.nombreAutomatizador);
-			String methodName = result.getMethod().getMethodName();
 			String logText = "Test Case: " + methodName + " Pasa-OK";
 			Markup m = MarkupHelper.createLabel(logText, ExtentColor.GREEN);
 			logger.log(Status.PASS, m);
-
-			// Leer archivo Paso donde est� el nombre de la imagen de la Evidencia
-			String archivoPaso1 = CC_Parametros.gloDir + File.separator + "screenshots" + File.separator + "passed"
-					+ File.separator + "Archivo_Paso.txt";
-			File archivoPaso2 = new File(archivoPaso1);
-			BufferedReader archivoLeer = new BufferedReader(new FileReader(archivoPaso2));
-
-			String fileName = archivoLeer.readLine();
-			archivoLeer.close();
-			// Fin
-
-			logger.addScreenCaptureFromPath(fileName, methodName);
+			logger.addScreenCaptureFromPath(screnshotPath, methodName);
 		} else if (result.getStatus() == ITestResult.FAILURE) {
 			logger.assignAuthor(CC_Parametros.nombreAutomatizador);
-			String methodName = result.getMethod().getMethodName();
 			String logText = "Test Case: " + methodName + " Falla";
 			Markup m = MarkupHelper.createLabel(logText, ExtentColor.RED);
 			logger.log(Status.FAIL, m);
+			logger.addScreenCaptureFromPath(screnshotPath, methodName);
 		} else if (result.getStatus() == ITestResult.SKIP) {
 			logger.assignAuthor(CC_Parametros.nombreAutomatizador);
-			String methodName = result.getMethod().getMethodName();
 			String logText = "Test Case: " + methodName + " Saltado";
 			Markup m = MarkupHelper.createLabel(logText, ExtentColor.AMBER);
 			logger.log(Status.SKIP, m);
+			logger.addScreenCaptureFromPath(screnshotPath, methodName);
 		}
 
-		// driver.quit();
+		driver.quit();
 	}
 
 	@AfterTest
@@ -182,29 +174,7 @@ public class GG_BaseTest {
 
 		} else if (browserName.equalsIgnoreCase("FireFox")) {
 			// Para FireFox
-			/*
-			 * WebDriverManager.firefoxdriver().setup();
-			 * 
-			 * // Skip captcha FirefoxOptions options = new FirefoxOptions();
-			 * 
-			 * options.addArguments("--headless", "--remote-allow-origins=*",
-			 * "start-maximized"); /* "--window-size=1920,1200","--disable-gpu",
-			 * "--ignore-certificate-errors", "--disable-extensions", "--no-sandbox",
-			 * "--disable-dev-shm-usage"
-			 */
-			/*
-			 * 
-			 * options.addArguments("--incognito",
-			 * "--disable-blink-features=AutomationControlled");
-			 * 
-			 * options.setCapability(CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR,
-			 * UnexpectedAlertBehaviour.IGNORE); if (CC_Test.gloVerFlujo.equals("S")) { //
-			 * Ver el Flujo en el Browser options = new FirefoxOptions(); } else { options =
-			 * new FirefoxOptions(options); // el argumento options es para que se ejecute
-			 * en background }
-			 * 
-			 * driver.manage().window().setSize(new Dimension(1920, 1080)); // Skip captcha
-			 */
+
 			System.out.println("Estamos trabajando activar la ejecución de las pruebas de automatización "
 					+ "en FireFox. Atento a las próximas actualizaciones.");
 
