@@ -6,9 +6,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.DataProvider;
 import com.opencsv.exceptions.CsvValidationException;
 
+import main.java.mail.EmailUtil;
+import main.java.mail.TLSEmail;
 import main.java.pageEvents.CC_PasosFuncionales;
 import main.java.utils.GG_OpenCSV;
 import main.java.utils.GG_Utils;
@@ -19,8 +23,11 @@ import main.java.utils.CC_Parametros;
 public class CC_Test extends GG_BaseTest {
 	static int gloFilas = 0;
 	public static String gloVerFlujo = "N";
+	private static String ASUNTO_CORREO = "Prueba de correo AUTOMATIZADO";
+	String[] sCorreos = EmailUtil.correos();
+	String mensajeCorreo = EmailUtil.bodyEmail();
 
-	@Test(enabled = true, dataProvider = "Data")
+	@Test(priority = 1, enabled = true, dataProvider = "Data")
 	public void CC_QA_Automatizacion(String args[]) throws InterruptedException {
 
 		GG_Utils.infoTestCase("Carrito de compras",
@@ -28,6 +35,11 @@ public class CC_Test extends GG_BaseTest {
 
 		CC_PasosFuncionales.iniciarSesion(args[0], args[1], "1");
 		CC_PasosFuncionales.seleccionarProducto(args[2], args[3], args[4], "2");
+	}
+	
+	@Test(priority = 2, enabled = true)
+	public void emailReport() {
+//		TLSEmail.sendEmail(sCorreos, ASUNTO_CORREO, mensajeCorreo);
 	}
 
 	@DataProvider(name = "Data")

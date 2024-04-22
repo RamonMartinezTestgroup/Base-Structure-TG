@@ -5,9 +5,10 @@
 		<listener class-name="main.java.utils.GG_SuiteListener" /> <!-- Ruta de la clase Test -->
 	</listeners>
 	<test name="Test Automation">
-		<parameter name="browserName" value="edge" />
+		<parameter name="browserName" value="chrome" />
 		<classes>
-			<class name="test.java.carritocompras.CC_Test" /> <!-- Ruta de la clase Test -->
+			<class name="test.java.carritocompras.CC_Test" />  <!-- Ruta de la clase Test -->
+		<!--	<class name="test.java.prueba_envio_mail" /> --> <!-- Test envio de correo -->
 		</classes>
 	</test>
 </suite>
