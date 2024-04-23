@@ -1,5 +1,26 @@
 package test.java;
 
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.time.Duration;
+import java.util.Collections;
+
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.UnexpectedAlertBehaviour;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.remote.CapabilityType;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
+
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
@@ -10,29 +31,6 @@ import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.UnexpectedAlertBehaviour;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.CapabilityType;
-import org.testng.ITestResult;
-import org.testng.annotations.*;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Collections;
 import main.java.utils.CC_Parametros;
 import main.java.utils.GG_Utils;
 import test.java.carritocompras.CC_Test;
@@ -48,21 +46,8 @@ public class GG_BaseTest {
 	public void beforeTestMethod() {
 		// Se inicializa el reporte
 
-		// Obtener Fecha y Hora para reporte.
-		LocalTime hhora = LocalTime.now();
-		DateTimeFormatter f_t = DateTimeFormatter.ofPattern("HHmmss");
-
-		LocalDate ffecha = LocalDate.now();
-		DateTimeFormatter f_d = DateTimeFormatter.ofPattern("yyyyMMdd");
-
-		String xHora = hhora.format(f_t).toString();
-		String xFecha = ffecha.format(f_d).toString();
-
-		String xSufijo = xFecha + "_" + xHora;
-		// Fin
-
 		htmlReporter = new ExtentHtmlReporter(CC_Parametros.gloDir + File.separator + "reporte" + File.separator
-				+ "ReporteAutomatizacion_" + xSufijo + ".html");
+				+ "ReporteAutomatizacion_" + GG_Utils.getDateTime() + ".html");
 		htmlReporter.config().setEncoding("utf-8");
 		htmlReporter.config().setDocumentTitle("Reporte Automatizaci�n");
 		htmlReporter.config().setReportName("Resultado Pruebas Automatizadas");
@@ -85,6 +70,18 @@ public class GG_BaseTest {
 		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(50));
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 	}
+
+//	@AfterMethod
+//	public void afterMethodScreenShot(ITestResult result) throws IOException {
+//		String methodName = result.getMethod().getMethodName();
+//		String screnshotPath = GG_Utils.takeMethodScreenShot(methodName, result);
+//
+//		logger.assignAuthor(CC_Parametros.nombreAutomatizador);
+//		String logText = "Test Case: " + methodName + " Pasa-OK";
+//		Markup m = MarkupHelper.createLabel(logText, ExtentColor.GREEN);
+//		logger.log(Status.PASS, m);
+//		logger.addScreenCaptureFromPath(screnshotPath, methodName);
+//	}
 
 	@AfterMethod
 	public void afterMethodMethod(ITestResult result) throws IOException {

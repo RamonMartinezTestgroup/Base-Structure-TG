@@ -38,7 +38,7 @@ public class GG_Utils {
 		String logText = "FAILED: " + currentEvent;
 		Markup m = MarkupHelper.createLabel(logText, ExtentColor.RED);
 		GG_BaseTest.logger.log(Status.FAIL, m);
-				
+
 		result.setStatus(ITestResult.FAILURE);
 		String path = takeScreenshot(currentEvent, result);
 		try {
@@ -49,18 +49,36 @@ public class GG_Utils {
 		Assert.fail();
 	}
 
-	public static String takeScreenshot(String nameMethod, ITestResult result) {
+	public static String getDateTime() {
 		// Obtener Fecha y Hora para la Evidencia del Paso.
 		LocalTime hhora = LocalTime.now();
 		DateTimeFormatter f_t = DateTimeFormatter.ofPattern("HHmmss");
-
 		LocalDate ffecha = LocalDate.now();
 		DateTimeFormatter f_d = DateTimeFormatter.ofPattern("yyyyMMdd");
-
 		String xHora = hhora.format(f_t).toString();
 		String xFecha = ffecha.format(f_d).toString();
-
 		String xSufijo = xFecha + "_" + xHora;
+		return xSufijo;
+	}
+
+	public static String takeStepScreenShot(String nameMethod, String stepDescription) {
+
+		String filepath = CC_Parametros.gloDir + File.separator + "screenshots" + File.separator + "steps"
+				+ File.separator + nameMethod + "_" + getDateTime();
+		File f = ((TakesScreenshot) GG_BaseTest.driver).getScreenshotAs(OutputType.FILE);
+
+		try {
+			File newFile = new File(filepath + ".png");
+			Files.copy(f, newFile);
+			return newFile.getAbsolutePath();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
+
+	public static String takeScreenshot(String nameMethod, ITestResult result) {
+		
 		String status = "";
 
 		if (result.getStatus() == ITestResult.SUCCESS) {
@@ -70,7 +88,7 @@ public class GG_Utils {
 		}
 
 		String filepath = CC_Parametros.gloDir + File.separator + "screenshots" + File.separator + status
-				+ File.separator + nameMethod + "_" + xSufijo;
+				+ File.separator + nameMethod + "_" + getDateTime();
 		File f = ((TakesScreenshot) GG_BaseTest.driver).getScreenshotAs(OutputType.FILE);
 
 		try {

@@ -65,9 +65,11 @@ public class CC_PasosFuncionales extends CC_Test {
 			GG_Validations.trueBooleanCondition(textoPagina.equalsIgnoreCase("Products"),
 					"Se ha ingresado correctamente a la pagina: " + textoPagina,
 					"No se ha ingresado correctamente a la pagina: ", currentEvent);
+			String screenshotPath = GG_Utils.takeStepScreenShot(currentEvent, "Validación acceso");
+			logger.addScreenCaptureFromPath(screenshotPath, "Validación de de acceso a cuenta.");
 
 		} catch (Exception e) {
-			GG_Utils.eventFailed(currentEvent, e.getMessage(), null );
+			GG_Utils.eventFailed(currentEvent, e.getMessage(), null);
 		}
 	}
 
@@ -117,6 +119,8 @@ public class CC_PasosFuncionales extends CC_Test {
 					"Se ha agregado producto(s) al carrito correctamente",
 					"No se ha agregado producto(s) al carrito correctamente, se esperaba '" + totalProductos + "'",
 					currentEvent);
+			String screenshotPath = GG_Utils.takeStepScreenShot(currentEvent, "validación carrito");
+			logger.addScreenCaptureFromPath(screenshotPath, "Validación de selección de producto");
 
 			Thread.sleep(2000);
 
