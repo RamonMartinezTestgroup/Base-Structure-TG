@@ -175,4 +175,21 @@ public class GG_Utils {
 			return name;
 		}
 	}
+	
+	public static void deleteFilesInDirectory(String directoryPath) {
+	    File directory = new File(directoryPath);
+	    // Comprueba si el directorio existe y es un directorio
+	    if (directory.exists() && directory.isDirectory()) {
+	        // Obtiene todos los archivos en el directorio
+	        File[] files = directory.listFiles();
+	        if (files != null) { // Algunas máquinas virtuales devuelven null al llamar a listFiles()
+	            for (File file : files) {
+	                // Elimina cada archivo
+	                if (!file.delete()) {
+	                    System.out.println("No se pudo eliminar el archivo: " + file.getAbsolutePath());
+	                }
+	            }
+	        }
+	    }
+	}
 }

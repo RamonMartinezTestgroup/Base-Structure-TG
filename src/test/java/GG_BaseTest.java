@@ -57,6 +57,13 @@ public class GG_BaseTest {
 		extent.attachReporter(htmlReporter);
 		extent.setSystemInfo("Tester Automatizador", CC_Parametros.nombreAutomatizador);
 		extent.setSystemInfo("Projecto", CC_Parametros.nombreProyecto);
+		GG_Utils.deleteFilesInDirectory(
+				CC_Parametros.gloDir + File.separator + "screenshots" + File.separator + "failed");
+		GG_Utils.deleteFilesInDirectory(
+				CC_Parametros.gloDir + File.separator + "screenshots" + File.separator + "steps");
+		GG_Utils.deleteFilesInDirectory(
+				CC_Parametros.gloDir + File.separator + "screenshots" + File.separator + "passed");
+		GG_Utils.deleteFilesInDirectory(CC_Parametros.gloDir + File.separator + "reporte");
 	}
 
 	@BeforeMethod
