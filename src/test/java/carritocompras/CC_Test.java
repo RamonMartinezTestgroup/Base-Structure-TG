@@ -23,9 +23,6 @@ import main.java.utils.CC_Parametros;
 public class CC_Test extends GG_BaseTest {
 	static int gloFilas = 0;
 	public static String gloVerFlujo = "N";
-	private static String ASUNTO_CORREO = "Prueba de correo AUTOMATIZADO";
-	String[] sCorreos = EmailUtil.correos();
-	String mensajeCorreo = EmailUtil.bodyEmail();
 
 	@Test(priority = 1, enabled = true, dataProvider = "Data")
 	public void CC_QA_Automatizacion(String args[]) throws InterruptedException {
@@ -35,11 +32,6 @@ public class CC_Test extends GG_BaseTest {
 
 		CC_PasosFuncionales.iniciarSesion(args[0], args[1], "1");
 		CC_PasosFuncionales.seleccionarProducto(args[2], args[3], args[4], "2");
-	}
-	
-	@Test(priority = 2, enabled = true)
-	public void emailReport() {
-//		TLSEmail.sendEmail(sCorreos, ASUNTO_CORREO, mensajeCorreo);
 	}
 
 	@DataProvider(name = "Data")

@@ -31,6 +31,8 @@ import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import main.java.mail.EmailUtil;
+import main.java.mail.TLSEmail;
 import main.java.utils.CC_Parametros;
 import main.java.utils.GG_Utils;
 import test.java.carritocompras.CC_Test;
@@ -41,6 +43,9 @@ public class GG_BaseTest {
 	public ExtentHtmlReporter htmlReporter;
 	public static ExtentReports extent;
 	public static ExtentTest logger;
+	private static String ASUNTO_CORREO = "Prueba de correo AUTOMATIZADO";
+	String[] sCorreos = EmailUtil.correos();
+	String mensajeCorreo = EmailUtil.bodyEmail();
 
 	@BeforeTest
 	public void beforeTestMethod() {
@@ -122,6 +127,9 @@ public class GG_BaseTest {
 	@AfterTest
 	public void afterTestMethod() {
 		extent.flush();
+		
+		//Envio de correo adjuntando el informe
+		TLSEmail.sendEmail2(sCorreos, ASUNTO_CORREO, mensajeCorreo);
 	}
 
 	public void setUpDriver(String browserName) {
